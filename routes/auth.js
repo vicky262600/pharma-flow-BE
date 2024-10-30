@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
-const Pharmacist = require("../models/Pharmacist");
+const Pharmacy = require("../models/Pharmacy");
 const bcrypt = require("bcrypt");
 
 //register
@@ -17,9 +17,9 @@ router.post("/register/doctor", async (req, res) => {
       password: hashedPassword,
     });
     const doctor = await newDoctor.save();
-    res.status.json(doctor);
+    res.status(200).json(doctor);
   } catch (err) {
-    res.status(201).json(err);
+    res.status(400).json(err);
   }
 });
 
@@ -34,31 +34,31 @@ router.post("/register/patient", async (req, res) => {
       password: hashedPassword,
     });
     const patient = await newPatient.save();
-    res.status(201).json(user);
+    res.status(201).json(patient);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.post("/register/Pharmacist", async (req, res) => {
+router.post("/register/Pharmacy", async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    const newPharmacist = new Pharmacist({
+    const newPharmacy = new Pharmacy({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
     });
-    const patient = await newPatient.save();
-    res.status(201).json(user);
+    const pharmacy = await newPharmacy.save();
+    res.status(201).json(pharmacy);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 // login
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     let user = await Doctor.findOne({ email: req.body.email });
     if (!user) {
@@ -75,7 +75,10 @@ router.get("/login", async (req, res) => {
       req.body.password,
       user.password
     );
+
     !validPassword && res.status(404).json("wrong password");
+
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
   }

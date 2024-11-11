@@ -11,7 +11,7 @@ router.post("/register/doctor", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const newDoctor = new Doctor({
-      licenseNumber: req.body.doctorLicence,
+      licenseNumber: req.body.licenseNumber,
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
@@ -46,6 +46,7 @@ router.post("/register/Pharmacy", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const newPharmacy = new Pharmacy({
+      pharmacyId: req.body.pharmacyId,
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,

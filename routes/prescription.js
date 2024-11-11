@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Prescription = require("../models/Prescription");
 
+// create prescription
 router.post("/", async (req, res) => {
   try {
     const newPrescription = new Prescription(req.body);

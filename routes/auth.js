@@ -15,6 +15,7 @@ router.post("/register/doctor", async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
+      role: req.body.role,
     });
     const doctor = await newDoctor.save();
     res.status(200).json(doctor);
@@ -29,9 +30,10 @@ router.post("/register/patient", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const newPatient = new Patient({
-      name: req.body.name,
-      email: req.body.email,
+      PatientName: req.body.PatientName,
+      PatientEmail: req.body.PatientEmail,
       password: hashedPassword,
+      role: req.body.role,
     });
     const patient = await newPatient.save();
     res.status(201).json(patient);
@@ -47,7 +49,7 @@ router.post("/register/Pharmacy", async (req, res) => {
 
     const newPharmacy = new Pharmacy({
       pharmacyId: req.body.pharmacyId,
-      name: req.body.name,
+      pharmacyName: req.body.pharmacyName,
       email: req.body.email,
       password: hashedPassword,
     });
